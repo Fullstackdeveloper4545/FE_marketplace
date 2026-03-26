@@ -2,6 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Runs before the JS bundle; works when /admin is served as index.html or 404.html (not Vercel’s generic NOT_FOUND page). -->
+    <script>
+      (function () {
+        var h = location.hash;
+        if (h.length > 1) return;
+        var path = location.pathname;
+        if (path === '/' || path.startsWith('/api')) return;
+        var last = path.split('/').pop() || '';
+        if (/\.[a-z0-9]{1,8}$/i.test(last)) return;
+        if (
+          path.startsWith('/admin') ||
+          path.startsWith('/product') ||
+          path === '/cart' ||
+          path === '/checkout' ||
+          path.startsWith('/order')
+        ) {
+          location.replace(location.origin + '/#' + path + location.search);
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dynamic Marketplace</title>

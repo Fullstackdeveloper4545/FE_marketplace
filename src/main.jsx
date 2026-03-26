@@ -26,13 +26,12 @@ import AdminShipping from './admin/pages/AdminShipping';
 import './index.css';
 
 /**
- * Vercel static hosting often returns 404 for deep links like /admin/login unless rewrites apply.
- * HashRouter keeps the path in the fragment (#/admin/login) so the server always serves / and the app boots.
- * Set VITE_USE_HASH_ROUTER=true on any host that has the same issue (e.g. custom domain on Vercel).
+ * Static hosts (Vercel, S3, etc.) often 404 on /admin/login. HashRouter uses #/… so only / must resolve.
+ * Production defaults to HashRouter. Set VITE_USE_HASH_ROUTER=false only if your host rewrites all paths to index.html.
  */
 const useHashRouter =
   import.meta.env.VITE_USE_HASH_ROUTER === 'true' ||
-  (typeof window !== 'undefined' && /\.vercel\.app$/i.test(window.location.hostname));
+  (import.meta.env.VITE_USE_HASH_ROUTER !== 'false' && import.meta.env.PROD);
 
 /**
  * HashRouter only reads location.hash. If Vercel rewrites /admin/login → index.html but the URL bar
