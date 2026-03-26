@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 import { LocaleProvider } from './context/LocaleProvider';
 import { CartProvider } from './context/CartProvider';
 import Layout from './pages/Layout';
@@ -25,8 +25,19 @@ import AdminModules from './admin/pages/AdminModules';
 import AdminShipping from './admin/pages/AdminShipping';
 import './index.css';
 
+/**
+ * Vercel static hosting often returns 404 for deep links like /admin/login unless rewrites apply.
+ * HashRouter keeps the path in the fragment (#/admin/login) so the server always serves / and the app boots.
+ * Set VITE_USE_HASH_ROUTER=true on any host that has the same issue (e.g. custom domain on Vercel).
+ */
+const useHashRouter =
+  import.meta.env.VITE_USE_HASH_ROUTER === 'true' ||
+  (typeof window !== 'undefined' && /\.vercel\.app$/i.test(window.location.hostname));
+
+const Router = useHashRouter ? HashRouter : BrowserRouter;
+
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+  <Router>
     <LocaleProvider>
       <CartProvider>
         <Routes>
@@ -63,5 +74,5 @@ createRoot(document.getElementById('root')).render(
         </Routes>
       </CartProvider>
     </LocaleProvider>
-  </BrowserRouter>
+  </Router>
 );
