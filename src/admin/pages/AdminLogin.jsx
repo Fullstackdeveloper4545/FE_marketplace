@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAdminAuth } from '../AdminAuthContext';
+import { apiAdminFetchNoTenant } from '../adminClient';
 
 /**
  * Admin login: paste the same string as backend/.env ADMIN_API_KEY.
@@ -22,15 +23,27 @@ export default function AdminLogin() {
       return;
     }
 
-    setAdminKey(key.trim());
-    await Swal.fire({
-      icon: 'success',
-      title: 'Signed in',
-      text: 'Welcome to admin dashboard.',
-      timer: 1400,
-      showConfirmButton: false,
-    });
-    navigate('/admin/reports/pending-orders', { replace: true });
+    const trimmed = key.trim();
+    try {
+      await apiAdminFetchNoTenant('/admin/tenants', trimmed);
+    } catch (e) {
+      setError(e.message || 'Invalid admin key or API unreachable.');
+      return;
+    }
+
+    setAdminKey(trimmed);
+    try {
+      await Swal.fire({
+        icon: 'success',
+        title: 'Signed in',
+        text: 'Welcome to admin dashboard.',
+        timer: 1400,
+        showConfirmButton: false,
+      });
+    } catch {
+      /* Swal optional */
+    }
+    navigate('/admin/dashboard', { replace: true });
   }
 
   return (

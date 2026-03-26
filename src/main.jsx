@@ -34,6 +34,30 @@ const useHashRouter =
   import.meta.env.VITE_USE_HASH_ROUTER === 'true' ||
   (typeof window !== 'undefined' && /\.vercel\.app$/i.test(window.location.hostname));
 
+/**
+ * HashRouter only reads location.hash. If Vercel rewrites /admin/login → index.html but the URL bar
+ * still shows /admin/login (no #), React would render the "/" route (home). Sync once to #/admin/login.
+ */
+if (typeof window !== 'undefined' && useHashRouter) {
+  const { pathname, search, hash, origin } = window.location;
+  const hasHashRoute = hash.length > 1;
+  if (!hasHashRoute && pathname !== '/' && !pathname.startsWith('/api')) {
+    const lastSeg = pathname.split('/').pop() || '';
+    const looksLikeFile = /\.[a-z0-9]{1,8}$/i.test(lastSeg);
+    if (!looksLikeFile) {
+      const isSpaPath =
+        pathname.startsWith('/admin') ||
+        pathname.startsWith('/product') ||
+        pathname === '/cart' ||
+        pathname === '/checkout' ||
+        pathname.startsWith('/order');
+      if (isSpaPath) {
+        window.location.replace(`${origin}/#${pathname}${search}`);
+      }
+    }
+  }
+}
+
 const Router = useHashRouter ? HashRouter : BrowserRouter;
 
 createRoot(document.getElementById('root')).render(
