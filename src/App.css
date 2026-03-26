@@ -92,6 +92,26 @@
   text-align: left;
 }
 
+.store-admin-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.95rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: filter 0.15s ease, box-shadow 0.2s ease;
+}
+
+.store-admin-link:hover {
+  filter: brightness(1.06);
+  box-shadow: var(--shadow-soft);
+}
+
 .store-cart-link {
   display: inline-flex;
   align-items: center;

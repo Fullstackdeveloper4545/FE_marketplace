@@ -26,6 +26,9 @@ export default function Layout() {
           </Link>
         </div>
         <div className="store-toolbar">
+          <Link to="/admin/login" className="store-admin-link">
+            Admin
+          </Link>
           <Link to="/cart" className="store-cart-link">
             Cart
             {cartCount > 0 && <span className="store-cart-badge">{cartCount}</span>}
