@@ -603,10 +603,26 @@
 }
 
 .store-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
   padding: 1rem clamp(1rem, 4vw, 2rem);
   border-top: 1px solid var(--border);
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+.store-footer-admin {
+  margin-left: auto;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.store-footer-admin:hover {
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 @media (max-width: 520px) {

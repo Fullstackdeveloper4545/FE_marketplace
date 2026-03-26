@@ -51,6 +51,9 @@ export default function Layout() {
 
       <footer className="store-footer">
         <span>Storefront · API `/api/v1`</span>
+        <Link to="/admin/login" className="store-footer-admin">
+          Admin
+        </Link>
       </footer>
     </div>
   );
