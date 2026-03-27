@@ -25,39 +25,8 @@ import AdminModules from './admin/pages/AdminModules';
 import AdminShipping from './admin/pages/AdminShipping';
 import './index.css';
 
-/**
- * Static hosts (Vercel, S3, etc.) often 404 on /admin/login. HashRouter uses #/… so only / must resolve.
- * Production defaults to HashRouter. Set VITE_USE_HASH_ROUTER=false only if your host rewrites all paths to index.html.
- */
-const useHashRouter =
-  import.meta.env.VITE_USE_HASH_ROUTER === 'true' ||
-  (import.meta.env.VITE_USE_HASH_ROUTER !== 'false' && import.meta.env.PROD);
-
-/**
- * HashRouter only reads location.hash. If Vercel rewrites /admin/login → index.html but the URL bar
- * still shows /admin/login (no #), React would render the "/" route (home). Sync once to #/admin/login.
- */
-if (typeof window !== 'undefined' && useHashRouter) {
-  const { search, hash, origin } = window.location;
-  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-  const hasHashRoute = hash.length > 1;
-  if (!hasHashRoute && pathname !== '/' && !pathname.startsWith('/api')) {
-    const lastSeg = pathname.split('/').pop() || '';
-    const looksLikeFile = /\.[a-z0-9]{1,8}$/i.test(lastSeg);
-    if (!looksLikeFile) {
-      const isSpaPath =
-        pathname.startsWith('/admin') ||
-        pathname.startsWith('/product') ||
-        pathname === '/cart' ||
-        pathname === '/checkout' ||
-        pathname.startsWith('/order');
-      if (isSpaPath) {
-        window.location.replace(`${origin}/#${pathname}${search}`);
-      }
-    }
-  }
-}
-
+/** Use normal URLs (/admin/login). Set VITE_USE_HASH_ROUTER=true only if your host never serves SPA HTML on those paths. */
+const useHashRouter = import.meta.env.VITE_USE_HASH_ROUTER === 'true';
 const Router = useHashRouter ? HashRouter : BrowserRouter;
 
 createRoot(document.getElementById('root')).render(

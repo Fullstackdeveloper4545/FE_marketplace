@@ -6,6 +6,7 @@
     {
       "source": "/api/(.*)",
       "destination": "https://marketplace-erp-bruno.onrender.com/api/$1"
-    }
+    },
+    { "source": "/product/:path*", "destination": "/index.html" }
   ]
 }
