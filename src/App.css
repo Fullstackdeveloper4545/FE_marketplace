@@ -92,24 +92,38 @@
   text-align: left;
 }
 
-.store-admin-link {
+/* Header CTA — same origin /admin/login when admin is shipped with this SPA */
+.store-admin-panel-btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.45rem 0.95rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--accent);
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.5rem 1.15rem;
+  border-radius: 0.55rem;
+  border: 2px solid color-mix(in srgb, var(--accent) 85%, #000);
   background: var(--accent);
   color: #fff;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-decoration: none;
   letter-spacing: 0.02em;
-  transition: filter 0.15s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 1px 0 color-mix(in srgb, #000 18%, transparent);
+  transition: filter 0.15s ease, box-shadow 0.2s ease, transform 0.12s ease;
 }
 
-.store-admin-link:hover {
-  filter: brightness(1.06);
+.store-admin-panel-btn:hover {
+  filter: brightness(1.05);
   box-shadow: var(--shadow-soft);
+}
+
+.store-admin-panel-btn:focus-visible {
+  outline: 2px solid var(--accent-2, var(--accent));
+  outline-offset: 2px;
+}
+
+.store-admin-panel-btn:active {
+  transform: translateY(1px);
 }
 
 .store-cart-link {

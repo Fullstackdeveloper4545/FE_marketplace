@@ -26,8 +26,12 @@ export default function Layout() {
           </Link>
         </div>
         <div className="store-toolbar">
-          <Link to="/admin/login" className="store-admin-link">
-            Admin
+          <Link
+            to="/admin/login"
+            className="store-admin-panel-btn"
+            aria-label="Open admin panel — sign in with your admin API key"
+          >
+            Admin panel
           </Link>
           <Link to="/cart" className="store-cart-link">
             Cart
@@ -55,7 +59,7 @@ export default function Layout() {
       <footer className="store-footer">
         <span>Storefront · API `/api/v1`</span>
         <Link to="/admin/login" className="store-footer-admin">
-          Admin
+          Admin panel
         </Link>
       </footer>
     </div>
