@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, Navigate, useLocation, useNavigate, matchPath } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAdminAuth } from './AdminAuthContext';
 import { apiAdminFetchNoTenant } from './adminClient';
@@ -9,7 +9,9 @@ export default function AdminLayout() {
   const [tenants, setTenants] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const isLoginRoute = location.pathname.startsWith('/admin/login');
+  const isLoginRoute = Boolean(
+    matchPath({ path: '/admin/login', end: true }, location.pathname)
+  );
 
   useEffect(() => {
     if (!isAuthed || !adminKey || isLoginRoute) return;

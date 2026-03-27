@@ -1,4 +1,11 @@
 /**
+ * Default API when the storefront is on Vercel `*.vercel.app` but `vercel.json` rewrites
+ * are missing (e.g. monorepo root deploy without root vercel.json). Override anytime with
+ * VITE_API_BASE_URL; use that env for a custom production domain on Vercel too.
+ */
+const DEFAULT_VERCEL_API_ORIGIN = 'https://marketplace-erp-bruno.onrender.com';
+
+/**
  * Backend API prefix. Use empty VITE_API_BASE_URL in dev so requests stay same-origin
  * and Vite's /api proxy forwards to the Node server.
  * If you set VITE_API_BASE_URL, use the API origin only — either `http://localhost:4000`
@@ -6,10 +13,15 @@
  */
 function apiBase() {
   const raw = (import.meta.env.VITE_API_BASE_URL || '').trim();
-  if (!raw) return '/api/v1';
-  let root = raw.replace(/\/+$/, '');
-  if (/\/api\/v1$/i.test(root)) return root;
-  return `${root}/api/v1`;
+  if (raw) {
+    let root = raw.replace(/\/+$/, '');
+    if (/\/api\/v1$/i.test(root)) return root;
+    return `${root}/api/v1`;
+  }
+  if (typeof window !== 'undefined' && /\.vercel\.app$/i.test(window.location.hostname)) {
+    return `${DEFAULT_VERCEL_API_ORIGIN.replace(/\/+$/, '')}/api/v1`;
+  }
+  return '/api/v1';
 }
 
 function defaultTenantSlug() {
