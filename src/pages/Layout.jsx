@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useLocale } from '../hooks/useLocale';
 import { useCart } from '../hooks/useCart';
 import '../App.css';
@@ -7,6 +7,36 @@ const LOCALES = [
   { code: 'pt', label: 'PT' },
   { code: 'es', label: 'ES' },
 ];
+
+/** Button + client navigate — avoids &lt;a href="/admin/..."&gt; which many ad blockers strip from the DOM. */
+function StaffEntryControl({ variant }) {
+  const navigate = useNavigate();
+  const go = () => navigate('/admin/login');
+  if (variant === 'footer') {
+    return (
+      <button
+        type="button"
+        className="store-footer-staff-btn"
+        onClick={go}
+        aria-label="Store admin sign-in (API key)"
+        title="Store admin — sign in with your API key"
+      >
+        Manage store
+      </button>
+    );
+  }
+  return (
+    <button
+      type="button"
+      className="store-staff-entry-btn"
+      onClick={go}
+      aria-label="Store admin sign-in (API key)"
+      title="Store admin — sign in with your API key"
+    >
+      Manage store
+    </button>
+  );
+}
 
 export default function Layout() {
   const { locale, setLocale } = useLocale();
@@ -26,15 +56,7 @@ export default function Layout() {
           </Link>
         </div>
         <div className="store-toolbar">
-          {/* href contains "admin" — some ad blockers hide this; label uses neutral copy. */}
-          <Link
-            to="/admin/login"
-            className="store-staff-entry-btn"
-            aria-label="Store admin sign-in (API key)"
-            title="Store admin — sign in with your API key"
-          >
-            Manage store
-          </Link>
+          <StaffEntryControl variant="header" />
           <Link to="/cart" className="store-cart-link">
             Cart
             {cartCount > 0 && <span className="store-cart-badge">{cartCount}</span>}
@@ -60,9 +82,7 @@ export default function Layout() {
 
       <footer className="store-footer">
         <span>Storefront · API `/api/v1`</span>
-        <Link to="/admin/login" className="store-footer-admin" title="Store admin sign-in">
-          Manage store
-        </Link>
+        <StaffEntryControl variant="footer" />
       </footer>
     </div>
   );

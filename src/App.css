@@ -92,8 +92,8 @@
   text-align: left;
 }
 
-/* Header CTA → /admin/login (same SPA). Solid colors — no color-mix so older engines don’t skip rules. */
-.store-staff-entry-btn {
+/* Header CTA — must be <button> not <a href="/admin/..."> (ad blockers remove those links). */
+button.store-staff-entry-btn {
   flex-shrink: 0;
   display: inline-flex !important;
   visibility: visible !important;
@@ -106,31 +106,34 @@
   border: 2px solid rgba(0, 0, 0, 0.22);
   background: var(--accent);
   color: #fff !important;
+  font: inherit;
   font-weight: 700;
   font-size: 0.95rem;
-  text-decoration: none !important;
   letter-spacing: 0.02em;
   white-space: nowrap;
   box-shadow: 0 2px 6px rgba(12, 10, 15, 0.12);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
   transition: filter 0.15s ease, box-shadow 0.2s ease, transform 0.12s ease;
 }
 
-.store-staff-entry-btn:hover {
+button.store-staff-entry-btn:hover {
   filter: brightness(1.06);
   box-shadow: var(--shadow-soft);
 }
 
-.store-staff-entry-btn:focus-visible {
+button.store-staff-entry-btn:focus-visible {
   outline: 2px solid var(--accent-2, var(--accent));
   outline-offset: 2px;
 }
 
-.store-staff-entry-btn:active {
+button.store-staff-entry-btn:active {
   transform: translateY(1px);
 }
 
 @media (prefers-color-scheme: dark) {
-  .store-staff-entry-btn {
+  button.store-staff-entry-btn {
     border-color: rgba(255, 255, 255, 0.35);
   }
 }
@@ -657,16 +660,23 @@
   color: var(--text-muted);
 }
 
-.store-footer-admin {
+button.store-footer-staff-btn {
   margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
   color: var(--accent);
-  text-decoration: none;
+  font: inherit;
   font-weight: 700;
   font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.store-footer-admin:hover {
-  text-decoration: underline;
+button.store-footer-staff-btn:hover {
+  filter: brightness(1.08);
 }
 
 @media (max-width: 520px) {
