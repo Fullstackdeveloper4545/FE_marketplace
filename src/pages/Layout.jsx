@@ -26,12 +26,14 @@ export default function Layout() {
           </Link>
         </div>
         <div className="store-toolbar">
+          {/* href contains "admin" — some ad blockers hide this; label uses neutral copy. */}
           <Link
             to="/admin/login"
-            className="store-admin-panel-btn"
-            aria-label="Open admin panel — sign in with your admin API key"
+            className="store-staff-entry-btn"
+            aria-label="Store admin sign-in (API key)"
+            title="Store admin — sign in with your API key"
           >
-            Admin panel
+            Manage store
           </Link>
           <Link to="/cart" className="store-cart-link">
             Cart
@@ -58,8 +60,8 @@ export default function Layout() {
 
       <footer className="store-footer">
         <span>Storefront · API `/api/v1`</span>
-        <Link to="/admin/login" className="store-footer-admin">
-          Admin panel
+        <Link to="/admin/login" className="store-footer-admin" title="Store admin sign-in">
+          Manage store
         </Link>
       </footer>
     </div>
