@@ -7,7 +7,7 @@
       (function () {
         var h = location.hash;
         if (h.length > 1) return;
-        var path = location.pathname;
+        var path = location.pathname.replace(/\/+$/, '') || '/';
         if (path === '/' || path.startsWith('/api')) return;
         var last = path.split('/').pop() || '';
         if (/\.[a-z0-9]{1,8}$/i.test(last)) return;

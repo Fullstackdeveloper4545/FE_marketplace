@@ -38,7 +38,8 @@ const useHashRouter =
  * still shows /admin/login (no #), React would render the "/" route (home). Sync once to #/admin/login.
  */
 if (typeof window !== 'undefined' && useHashRouter) {
-  const { pathname, search, hash, origin } = window.location;
+  const { search, hash, origin } = window.location;
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
   const hasHashRoute = hash.length > 1;
   if (!hasHashRoute && pathname !== '/' && !pathname.startsWith('/api')) {
     const lastSeg = pathname.split('/').pop() || '';

@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": false,
-  "trailingSlash": false
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://marketplace-erp-bruno.onrender.com/api/$1"
+    }
+  ]
 }
