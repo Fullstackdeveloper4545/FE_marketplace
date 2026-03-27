@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import vercel from 'vite-plugin-vercel/vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -27,7 +28,23 @@ export default defineConfig(({ mode }) => {
   const proxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:4000'
 
   return {
-    plugins: [react(), spaFallback404Plugin()],
+    plugins: [
+      react(),
+      spaFallback404Plugin(),
+      /** Embeds SPA + API rewrites into `.vercel/output` so Vercel applies routes (plain `dist` + vercel.json is often ignored). */
+      vercel({
+        cleanUrls: false,
+        trailingSlash: false,
+        rewrites: [
+          {
+            source: '/api/(.*)',
+            destination: 'https://marketplace-erp-bruno.onrender.com/api/$1',
+          },
+          // One catch-all after filesystem (see generated config); avoid per-route splats — plugin may add ?path= and break the router.
+          { source: '/(.*)', destination: '/index.html' },
+        ],
+      }),
+    ],
     server: {
       proxy: {
         '/api': {
