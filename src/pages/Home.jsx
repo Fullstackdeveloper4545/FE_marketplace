@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { apiFetch } from '../api/client';
 import { useLocale } from '../hooks/useLocale';
 import { formatMoney } from '../utils/format';
+import HomeHero from './HomeHero';
 
 export default function Home() {
   const { locale, t } = useLocale();
@@ -62,8 +63,9 @@ export default function Home() {
   }, [loadProducts]);
 
   return (
-    <main className="store-main">
-      <div className="home-toolbar">
+    <main className="store-main store-main--home">
+      <HomeHero />
+      <div id="store-catalog" className="home-toolbar">
         <label className="store-field">
           <span className="store-field-label">{t('home.category')}</span>
           <select

@@ -13,6 +13,24 @@ const STRINGS = {
     store: {
       title: 'Dynamic Marketplace',
       tagline: 'Curated products · secure checkout',
+      announcement: 'Offers & sale updates',
+      navAbout: 'About us',
+      navBlog: 'Blog',
+      navContact: 'Contact',
+      logoMain: 'ANADIAS',
+      logoSuffix: '.run',
+      searchAria: 'Search',
+      accountAria: 'Account',
+      categoryNav: [
+        { key: 'shoes', label: 'Sneakers' },
+        { key: 'apparel', label: 'Clothing' },
+        { key: 'gps', label: 'GPS watches' },
+        { key: 'gear', label: 'Running gear' },
+        { key: 'nutrition', label: 'Sports nutrition' },
+        { key: 'hyrox', label: 'Hyrox' },
+        { key: 'brands', label: 'Brands' },
+        { key: 'sale', label: 'Sale', sale: true },
+      ],
       manageStore: 'Manage store',
       cart: 'Cart',
       language: 'Language',
@@ -21,6 +39,13 @@ const STRINGS = {
       staffTitle: 'Store admin — sign in with your API key',
     },
     home: {
+      hero: {
+        title: 'Run further. Run better.',
+        subtitle:
+          'Technical gear for road and trail running — tested by athletes, built for anyone who takes performance seriously.',
+        cta: 'Shop now',
+        ctaHref: '#store-catalog',
+      },
       category: 'Category',
       all: 'All',
       any: 'Any',
@@ -72,6 +97,24 @@ const STRINGS = {
     store: {
       title: 'Dynamic Marketplace',
       tagline: 'Produtos selecionados · checkout seguro',
+      announcement: 'Ofertas e Informações Saldos',
+      navAbout: 'Sobre Nós',
+      navBlog: 'Blog',
+      navContact: 'Contactos',
+      logoMain: 'ANADIAS',
+      logoSuffix: '.run',
+      searchAria: 'Pesquisar',
+      accountAria: 'Conta',
+      categoryNav: [
+        { key: 'shoes', label: 'Sapatilhas' },
+        { key: 'apparel', label: 'Roupa' },
+        { key: 'gps', label: 'Relógios GPS' },
+        { key: 'gear', label: 'Equipamento de Corrida' },
+        { key: 'nutrition', label: 'Nutrição Desportiva' },
+        { key: 'hyrox', label: 'Hyrox' },
+        { key: 'brands', label: 'Marcas' },
+        { key: 'sale', label: 'Saldos', sale: true },
+      ],
       manageStore: 'Gerir loja',
       cart: 'Carrinho',
       language: 'Idioma',
@@ -80,6 +123,13 @@ const STRINGS = {
       staffTitle: 'Administração — inicie sessão com a chave API',
     },
     home: {
+      hero: {
+        title: 'Corre mais longe. Corre melhor.',
+        subtitle:
+          'Equipamento técnico para corrida e trail running, testado por atletas e escolhido para quem leva a performance a sério.',
+        cta: 'Comprar agora',
+        ctaHref: '#store-catalog',
+      },
       category: 'Categoria',
       all: 'Todas',
       any: 'Qualquer',
@@ -131,6 +181,24 @@ const STRINGS = {
     store: {
       title: 'Dynamic Marketplace',
       tagline: 'Productos seleccionados · pago seguro',
+      announcement: 'Ofertas e información de rebajas',
+      navAbout: 'Sobre nosotros',
+      navBlog: 'Blog',
+      navContact: 'Contacto',
+      logoMain: 'ANADIAS',
+      logoSuffix: '.run',
+      searchAria: 'Buscar',
+      accountAria: 'Cuenta',
+      categoryNav: [
+        { key: 'shoes', label: 'Zapatillas' },
+        { key: 'apparel', label: 'Ropa' },
+        { key: 'gps', label: 'Relojes GPS' },
+        { key: 'gear', label: 'Material de running' },
+        { key: 'nutrition', label: 'Nutrición deportiva' },
+        { key: 'hyrox', label: 'Hyrox' },
+        { key: 'brands', label: 'Marcas' },
+        { key: 'sale', label: 'Rebajas', sale: true },
+      ],
       manageStore: 'Gestionar tienda',
       cart: 'Carrito',
       language: 'Idioma',
@@ -139,6 +207,13 @@ const STRINGS = {
       staffTitle: 'Administración — inicia sesión con tu clave API',
     },
     home: {
+      hero: {
+        title: 'Corre más lejos. Corre mejor.',
+        subtitle:
+          'Equipamiento técnico para running y trail, probado por atletas y pensado para quien se toma el rendimiento en serio.',
+        cta: 'Comprar ahora',
+        ctaHref: '#store-catalog',
+      },
       category: 'Categoría',
       all: 'Todas',
       any: 'Cualquiera',
@@ -217,6 +292,12 @@ export function makeTranslator(uiLocale) {
     if (raw === undefined) return key;
     return vars ? interpolate(raw, vars) : raw;
   };
+}
+
+/** Category strip under header (Figma-style); falls back to English. */
+export function getCategoryNav(locale) {
+  const pack = STRINGS[locale] || STRINGS.en;
+  return pack.store?.categoryNav?.length ? pack.store.categoryNav : STRINGS.en.store.categoryNav;
 }
 
 export { STRINGS };
