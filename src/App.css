@@ -841,6 +841,23 @@ button.store-footer-staff-btn:hover {
   margin-right: 0.75rem;
 }
 
+.admin-lang-select {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 0.75rem;
+}
+
+.admin-lang-select--login {
+  margin-right: 0;
+}
+
+.admin-login-lang {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.25rem 0 1.25rem;
+}
+
 .admin-tenant-label {
   font-size: 0.75rem;
   opacity: 0.85;

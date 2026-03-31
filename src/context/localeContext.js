@@ -1,6 +1,8 @@
 import { createContext } from 'react';
 
 export const LocaleContext = createContext({
-  locale: 'pt',
+  locale: 'en',
   setLocale: () => {},
+  t: (key) => key,
+  uiLocales: [],
 });

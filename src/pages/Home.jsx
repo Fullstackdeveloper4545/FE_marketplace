@@ -5,7 +5,7 @@ import { useLocale } from '../hooks/useLocale';
 import { formatMoney } from '../utils/format';
 
 export default function Home() {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const [categoryId, setCategoryId] = useState('');
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
@@ -42,12 +42,12 @@ export default function Home() {
       setProducts(data.items || []);
       setTotal(data.total ?? 0);
     } catch (e) {
-      setError(e.message || 'Failed to load products');
+      setError(e.message || t('home.loadError'));
       setProducts([]);
     } finally {
       setLoading(false);
     }
-  }, [locale, categoryId, selectedAttributeValues]);
+  }, [locale, categoryId, selectedAttributeValues, t]);
 
   useEffect(() => {
     loadCategories().catch((e) => setError(e.message));
@@ -65,13 +65,13 @@ export default function Home() {
     <main className="store-main">
       <div className="home-toolbar">
         <label className="store-field">
-          <span className="store-field-label">Category</span>
+          <span className="store-field-label">{t('home.category')}</span>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
             className="store-select"
           >
-            <option value="">All</option>
+            <option value="">{t('home.all')}</option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name || c.slug || c.id}
@@ -93,7 +93,7 @@ export default function Home() {
               }
               className="store-select"
             >
-              <option value="">Any</option>
+              <option value="">{t('home.any')}</option>
               {a.values.map((v) => (
                 <option key={v.id} value={v.id}>
                   {v.label || v.code || v.id}
@@ -111,18 +111,18 @@ export default function Home() {
       )}
 
       {loading ? (
-        <p className="store-muted">Loading catalogue…</p>
+        <p className="store-muted">{t('home.loading')}</p>
       ) : products.length === 0 ? (
         <div className="store-empty">
-          <p>No products yet.</p>
-          <p className="store-muted">
-            Run the demo seed migration and `npm run db:push`, or use the admin API.
-          </p>
+          <p>{t('home.noProducts')}</p>
+          <p className="store-muted">{t('home.noProductsHint')}</p>
         </div>
       ) : (
         <>
           <p className="store-count">
-            {total} product{total === 1 ? '' : 's'}
+            {total === 1
+              ? t('home.productCount', { count: total })
+              : t('home.productCountPlural', { count: total })}
           </p>
           <ul className="product-grid">
             {products.map((p) => (
@@ -139,7 +139,9 @@ export default function Home() {
                   <div className="product-card-body">
                     <h2 className="product-card-title">{p.name || p.sku}</h2>
                     {p.name == null && (
-                      <span className="store-muted">Missing {locale.toUpperCase()} translation</span>
+                      <span className="store-muted">
+                        {t('home.missingTranslation', { lang: locale.toUpperCase() })}
+                      </span>
                     )}
                     <p className="product-card-price">
                       {formatMoney(p.base_price)}

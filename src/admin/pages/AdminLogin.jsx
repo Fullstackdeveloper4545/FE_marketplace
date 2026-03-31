@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useLocale } from '../../hooks/useLocale';
 import { useAdminAuth } from '../AdminAuthContext';
 import { apiAdminFetchNoTenant } from '../adminClient';
 
@@ -10,6 +11,7 @@ import { apiAdminFetchNoTenant } from '../adminClient';
  */
 export default function AdminLogin() {
   const navigate = useNavigate();
+  const { t, locale, setLocale, uiLocales } = useLocale();
   const { setAdminKey } = useAdminAuth();
   const [key, setKey] = useState('');
   const [error, setError] = useState(null);
@@ -19,15 +21,15 @@ export default function AdminLogin() {
     setError(null);
 
     if (!key.trim()) {
-      setError('Admin key is required.');
+      setError(t('admin.login.keyRequired'));
       return;
     }
 
     const trimmed = key.trim();
     try {
       await apiAdminFetchNoTenant('/admin/tenants', trimmed);
-    } catch (e) {
-      setError(e.message || 'Invalid admin key or API unreachable.');
+    } catch (err) {
+      setError(err.message || t('admin.login.keyInvalid'));
       return;
     }
 
@@ -35,8 +37,8 @@ export default function AdminLogin() {
     try {
       await Swal.fire({
         icon: 'success',
-        title: 'Signed in',
-        text: 'Welcome to admin dashboard.',
+        title: t('admin.login.signedInTitle'),
+        text: t('admin.login.signedInText'),
         timer: 1400,
         showConfirmButton: false,
       });
@@ -48,8 +50,26 @@ export default function AdminLogin() {
 
   return (
     <main className="admin-main">
-      <h1 className="admin-title">Admin login</h1>
-      <p className="admin-lead">Enter the API key used to protect admin routes.</p>
+      <div className="admin-login-lang">
+        <label className="admin-lang-select admin-lang-select--login">
+          <span className="admin-tenant-label">{t('admin.language')}</span>
+          <select
+            className="admin-input admin-tenant-input"
+            value={locale}
+            onChange={(e) => setLocale(e.target.value)}
+            aria-label={t('admin.language')}
+          >
+            {uiLocales.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <h1 className="admin-title">{t('admin.login.title')}</h1>
+      <p className="admin-lead">{t('admin.login.lead')}</p>
 
       {error && (
         <p className="store-banner store-banner--error" role="alert">
@@ -59,7 +79,7 @@ export default function AdminLogin() {
 
       <form className="admin-form" onSubmit={onSubmit}>
         <label className="admin-field">
-          <span className="store-field-label">ADMIN_API_KEY</span>
+          <span className="store-field-label">{t('admin.login.keyLabel')}</span>
           <input
             className="cart-coupon-input"
             type="password"
@@ -69,10 +89,9 @@ export default function AdminLogin() {
           />
         </label>
         <button className="btn-primary" type="submit">
-          Login
+          {t('admin.login.submit')}
         </button>
       </form>
     </main>
   );
 }
-
